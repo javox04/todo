@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<button><a href="{% url 'inprogress_url' %}">In Progress task</a></button>
+<button><a href="{% url 'finished_url' %}">Finished task</a></button>
+<button><a href="{% url 'deleted_task_url' %}"> Delete task</a></button>
+<section class="vh-100" style="background-color: #eee;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card rounded-3">
+          <div class="card-body p-4">
+            <h4 class="text-center my-3 pb-3">To Do App</h4>
+            <form action="{% url 'create_task_url' %}" method="post" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+              {% csrf_token %}
+              <div class="col-12">
+                <div class="form-outline">
+                  <input type="text" id="form1" class="form-control" name="task" required />
+                  <label class="form-label" for="form1">Enter a task here</label>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+
+            <table class="table mb-4">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Todo item</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for i in tasks %}
+                <tr>
+                  <th scope="row">{{ i.id }}</th>
+                  <td>{{ i.tack }}</td>
+                  <td>{{ i.status }}</td>
+                  {% if i.status == 'In Progress' %}
+                  <td>
+                    <button type="submit" class="btn btn-danger"><a href="{% url 'swap_status_deleted_url' i.id %}">Deleted</a></button>
+                    <button type="submit" class="btn btn-success ms-1"><a href="{% url 'swap_status_finished_url' i.id %}">Finished</a></button>
+                  </td>
+                  {% endif %}
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
