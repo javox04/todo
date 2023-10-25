@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import *
 
-
+print("salom")
+print("salom")
+print("salom")
+print("salom")
 def index_view(request):
     context = {
         'tasks': Todo.objects.all()
